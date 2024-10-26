@@ -21,19 +21,22 @@ model Account {
 }
 
 model User {
-  id         Int     @id @default(autoincrement())
+  id         Int         @id @default(autoincrement())
   name       String
   age        Int
   role       String
   face_image String
   gender_id  Int
-  gender     Gender  @relation(fields: [gender_id], references: [id])
+  gender     Gender      @relation(fields: [gender_id], references: [id])
   classes    Class[]
+  Account    Account[]
+  Attendant  Attendant[]
 }
 
 model Gender {
   id     Int    @id @default(autoincrement())
   gender String
+  User   User[]
 }
 
 model Class {
@@ -54,8 +57,10 @@ model Session {
 
 model Attendant {
   id             Int       @id @default(autoincrement())
-  user_id        User      @relation(fields: [userId], references: [id])
-  session_id     Session   @relation(fields: [sessionId], references: [id])
+  user           User      @relation(fields: [user_id], references: [id])
+  user_id        Int
+  session        Session   @relation(fields: [session_id], references: [id])
+  session_id     Int
   attendant_time DateTime
   leave_time     DateTime?
 }
